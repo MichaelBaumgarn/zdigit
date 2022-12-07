@@ -103,7 +103,7 @@ export default function DashBoard() {
         direction={["column", "row"]}
         my="4"
         spacing="4"
-        alignItems="center"
+        alignItems={["flex-start", "center"]}
       >
         <CustomTag
           data-testid="toggle-contract"

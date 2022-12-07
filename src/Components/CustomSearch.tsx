@@ -23,7 +23,7 @@ export default function CustomSearch({
         my="2"
         spacing="2"
         flexWrap="wrap"
-        alignItems="center"
+        alignItems={["flex-start", "center"]}
       >
         {["serial_number", "customer", "asset_type", "id", "guid"].map(
           (searchColumn, i) => (
