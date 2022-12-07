@@ -1,6 +1,6 @@
 import * as React from "react";
 
-import { Box, Input, Stack, Text } from "@chakra-ui/react";
+import { Box, Input, Stack } from "@chakra-ui/react";
 
 import { CustomTable } from "./CustomTable";
 import CustomTag from "./Tag";
@@ -62,7 +62,6 @@ export default function DashBoard() {
   // };
 
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
-    console.log(e.target.value);
     if (e.target.value === "") {
       setActiveData(data);
       return;
@@ -126,12 +125,14 @@ export default function DashBoard() {
           }}
         />
       </Stack>
-      <Text>Search:</Text>
-      <Input
-        autoFocus
-        aria-label={"search-input"}
-        onChange={handleSearch}
-      ></Input>
+      <label>
+        Search:
+        <Input
+          autoFocus
+          aria-label={"search-input"}
+          onChange={handleSearch}
+        ></Input>
+      </label>
       <CustomTable activeData={activeData} />
     </Box>
   );

@@ -27,6 +27,7 @@ export function CustomTable({ activeData }: ICustomTableProps) {
       </VStack>
       <TableContainer my="4" display={["none", "block", "block", "block"]}>
         <Table variant="simple">
+          <caption>Machines and customers overview</caption>
           <Thead>
             <Tr>
               <Th role="columnheader">asset type</Th>
