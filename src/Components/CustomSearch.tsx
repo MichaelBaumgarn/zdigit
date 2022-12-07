@@ -32,8 +32,8 @@ export default function CustomSearch({
               label={searchColumn}
               active={
                 Boolean(activeSearchTags.find((tag) => tag === searchColumn))
-                  ? true
-                  : null
+                  ? "valid"
+                  : "ignore"
               }
               onClick={() => {
                 const inList = activeSearchTags.find(

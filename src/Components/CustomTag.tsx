@@ -1,9 +1,11 @@
 import { Button, Tag, TagCloseButton, Text } from "@chakra-ui/react";
 
+import { Filter } from "./DashBoard";
+
 type TCustomTag = {
   label?: string;
   colorScheme?: string;
-  active: boolean | null;
+  active: Filter;
   onClick: () => void;
   onClose?: () => void | undefined;
 };
@@ -24,7 +26,9 @@ const CustomTag = ({
       size="lg"
       borderRadius="full"
       variant="solid"
-      colorScheme={active === null ? "gray" : active ? colorScheme : "red"}
+      colorScheme={
+        active === "ignore" ? "gray" : active === "valid" ? colorScheme : "red"
+      }
       minW="100"
       whiteSpace="nowrap"
       overflow="hidden"

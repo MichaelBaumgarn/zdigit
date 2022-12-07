@@ -3,12 +3,13 @@ import * as React from "react";
 import { Heading, Stack, Text } from "@chakra-ui/react";
 
 import CustomTag from "./CustomTag";
+import { Filter } from "./DashBoard";
 
 export interface IDataFiltersProps {
-  filterContract: boolean | null;
-  filterWarranty: boolean | null;
-  setFilterContract: (val: boolean | null) => void;
-  setFilterWarranty: (val: boolean | null) => void;
+  filterContract: Filter;
+  filterWarranty: Filter;
+  setFilterContract: (val: Filter) => void;
+  setFilterWarranty: (val: Filter) => void;
   contractCount: number;
   warrantyCount: number;
 }
@@ -37,30 +38,30 @@ export default function DataFilters({
           data-testid="toggle-contract"
           active={filterContract}
           label={
-            filterContract
+            filterContract === "valid"
               ? `${contractCount} valid contracts`
               : `${contractCount} expired contracts`
           }
           onClick={() => {
-            setFilterContract(!filterContract);
+            setFilterContract(filterContract === "valid" ? "expired" : "valid");
           }}
           onClose={() => {
-            setFilterContract(null);
+            setFilterContract("ignore");
           }}
         />
         <CustomTag
           data-testid="toggle-warranty"
           label={
-            filterWarranty
+            filterWarranty === "valid"
               ? `${warrantyCount} valid warranties`
               : `${warrantyCount} expired warranties`
           }
           active={filterWarranty}
           onClick={() => {
-            setFilterWarranty(!filterWarranty);
+            setFilterWarranty(filterWarranty === "valid" ? "expired" : "valid");
           }}
           onClose={() => {
-            setFilterWarranty(null);
+            setFilterWarranty("ignore");
           }}
         />
       </Stack>
