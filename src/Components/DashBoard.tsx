@@ -5,7 +5,7 @@ import { Box, Input, Stack, Text } from "@chakra-ui/react";
 import { CustomTable } from "./CustomTable";
 import CustomTag from "./Tag";
 import FuzzySearch from "fuzzy-search";
-import data from "./machine_data.json";
+import data from "../machine_data.json";
 import { useEffect } from "react";
 
 export type Machine = {
