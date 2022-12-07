@@ -18,7 +18,7 @@ export default function CustomSearch({
   return (
     <div aria-label="search area">
       <Heading size="md">Search by text based on the selected filters:</Heading>
-      <Text fontSize="sm">
+      <Text fontSize="sm" mb={["2", "2", ""]}>
         Hint: You can select multiple columns at once but make sure at least one
         is selected. Your text search will be compared against the selected
         columns.
@@ -26,7 +26,6 @@ export default function CustomSearch({
       <Stack
         direction={["column", "row"]}
         my="2"
-        spacing="2"
         flexWrap="wrap"
         alignItems={["flex-start", "center"]}
       >

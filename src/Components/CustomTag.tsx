@@ -20,7 +20,7 @@ const CustomTag = ({
 }: TCustomTag) => {
   return (
     <Tag
-      my="4"
+      my={["", "4"]}
       maxH="30"
       aria-label={`filter for: ${label}`}
       size="lg"
