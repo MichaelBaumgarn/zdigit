@@ -5,7 +5,7 @@ type TCustomTag = {
   colorScheme?: string;
   active: boolean | null;
   onClick: () => void;
-  onClose: () => void;
+  onClose?: () => void | undefined;
 };
 
 const CustomTag = ({
@@ -42,7 +42,9 @@ const CustomTag = ({
           {label}
         </Text>
       </Button>
-      <TagCloseButton aria-label="disable filter" onClick={onClose} />
+      {onClose && (
+        <TagCloseButton aria-label="disable filter" onClick={onClose} />
+      )}
     </Tag>
   );
 };

@@ -17,7 +17,7 @@ export default function CustomSearch({
 }: ICustomSearchProps) {
   return (
     <div aria-label="search area">
-      <Heading size="md">Search filters:</Heading>
+      <Heading size="md">Search by text with regards to these filters:</Heading>
       <Stack
         direction={["column", "row"]}
         my="2"
@@ -36,14 +36,14 @@ export default function CustomSearch({
                   : null
               }
               onClick={() => {
-                if (!activeSearchTags.find((tag) => tag === searchColumn)) {
+                const inList = activeSearchTags.find(
+                  (tag) => tag === searchColumn
+                );
+                if (!inList) {
                   const newActiveSearchTags = [...activeSearchTags];
                   newActiveSearchTags.push(searchColumn);
                   setActiveSearchTags(newActiveSearchTags);
-                }
-              }}
-              onClose={() => {
-                if (activeSearchTags.length > 1) {
+                } else if (activeSearchTags.length > 1) {
                   const newActiveSearchTags = activeSearchTags.filter(
                     (tag) => tag !== searchColumn
                   );

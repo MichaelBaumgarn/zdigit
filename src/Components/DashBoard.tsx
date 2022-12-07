@@ -124,7 +124,7 @@ export default function DashBoard() {
           label={
             filterWarranty
               ? `${warranty.length} warranty`
-              : `${noWarranty.length} have expiered warranty`
+              : `${noWarranty.length} have expired warranty`
           }
           active={filterWarranty}
           onClick={handleFilterWarranty}
