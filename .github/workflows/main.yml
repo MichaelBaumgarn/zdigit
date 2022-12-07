@@ -17,4 +17,4 @@ jobs:
           useLockFile: false
 
       - name: 🧪 Run test script
-        run: npm run test:coverage
+        run: npm test
