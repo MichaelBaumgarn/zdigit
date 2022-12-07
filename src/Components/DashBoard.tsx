@@ -1,11 +1,11 @@
 import * as React from "react";
 
-import { Box, Divider, Heading, Stack, Text } from "@chakra-ui/react";
+import { Box, Divider } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 
 import CustomSearch from "./CustomSearch";
 import { CustomTable } from "./CustomTable";
-import CustomTag from "./CustomTag";
+import DataFilters from "./DataFilters";
 import FuzzySearch from "fuzzy-search";
 import data from "../machine_data.json";
 
@@ -88,13 +88,14 @@ export default function DashBoard() {
   // };
 
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
+    // how about using common substring data
+    // const results = data.filter((dp) => dp.serial_number === e.target.value);
+    // const results = findSerialNumber(data, e.target.value);
+
     if (e.target.value === "") {
       setActiveData(data);
       return;
     }
-    // how about using common substring data
-    // const results = data.filter((dp) => dp.serial_number === e.target.value);
-    // const results = findSerialNumber(data, e.target.value);
     const searcher = new FuzzySearch(data, activeSearchTags, {
       caseSensitive: false,
     });
@@ -102,53 +103,16 @@ export default function DashBoard() {
     setActiveData(results);
   };
 
-  const handleFilterWarranty = () => {
-    setFilterWarranty(!filterWarranty);
-  };
-
-  const handleFilterContract = () => {
-    setFilterContract(!filterContract);
-  };
-
   return (
     <Box m="4">
-      <Heading mt="4" size="md">
-        Sorty by:
-      </Heading>
-      <Text>Click on the X to disregard the filter</Text>
-      <Stack
-        direction={["column", "row"]}
-        my="4"
-        spacing="4"
-        alignItems={["flex-start", "center"]}
-      >
-        <CustomTag
-          data-testid="toggle-contract"
-          active={filterContract}
-          label={
-            filterContract
-              ? `${contractCount} contract`
-              : `${contractCount} with expired contract`
-          }
-          onClick={handleFilterContract}
-          onClose={() => {
-            setFilterContract(null);
-          }}
-        />
-        <CustomTag
-          data-testid="warranty-toggle"
-          label={
-            filterWarranty
-              ? `${warrantyCount} warranty`
-              : `${warrantyCount} with expired warranty`
-          }
-          active={filterWarranty}
-          onClick={handleFilterWarranty}
-          onClose={() => {
-            setFilterWarranty(null);
-          }}
-        />
-      </Stack>
+      <DataFilters
+        filterContract={filterContract}
+        filterWarranty={filterWarranty}
+        setFilterContract={setFilterContract}
+        setFilterWarranty={setFilterWarranty}
+        contractCount={contractCount}
+        warrantyCount={warrantyCount}
+      />
       <Divider my="4"></Divider>
       <CustomSearch
         activeSearchTags={activeSearchTags}

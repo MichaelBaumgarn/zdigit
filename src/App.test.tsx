@@ -1,4 +1,4 @@
-import { fireEvent, render, screen } from "@testing-library/react";
+import { render, screen } from "@testing-library/react";
 
 import App from "./App";
 import React from "react";
@@ -16,12 +16,36 @@ test("search", () => {
   userEvent.clear(searchInput);
 });
 
-test("toggle", () => {
+test("simple toggle", () => {
   render(<App />);
   const firstRowContract = screen.getByTestId("col-contract-0");
   const toggle = screen.getByTestId("toggle-contract");
+  expect(firstRowContract.textContent).toBe("expired");
   userEvent.click(toggle);
   expect(firstRowContract.textContent).toBe("valid");
   userEvent.click(toggle);
   expect(firstRowContract.textContent).toBe("expired");
+});
+
+test("combine toggles", () => {
+  render(<App />);
+  const firstRowContract = screen.getByTestId("col-contract-0");
+  const firstRowWarranty = screen.getByTestId("col-warranty-0");
+  const toggleContract = screen.getByTestId("toggle-contract");
+  const toggleWarranty = screen.getByTestId("toggle-warranty");
+  expect(firstRowContract.textContent).toBe("expired");
+  expect(firstRowWarranty.textContent).toBe("expired");
+  userEvent.click(toggleContract);
+  userEvent.click(toggleWarranty);
+  expect(firstRowContract.textContent).toBe("valid");
+  expect(firstRowWarranty.textContent).toBe("valid");
+  userEvent.click(toggleWarranty);
+  expect(firstRowContract.textContent).toBe("valid");
+  expect(firstRowWarranty.textContent).toBe("expired");
+  userEvent.click(toggleContract);
+  expect(firstRowContract.textContent).toBe("expired");
+  expect(firstRowWarranty.textContent).toBe("expired");
+  userEvent.click(toggleWarranty);
+  expect(firstRowContract.textContent).toBe("expired");
+  expect(firstRowWarranty.textContent).toBe("valid");
 });
