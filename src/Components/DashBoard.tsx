@@ -67,15 +67,12 @@ export default function DashBoard() {
   useEffect(() => {
     // find out count for warranty
     if (filterWarranty === "valid") {
-      console.log("valid1");
-
       const count = activeData.filter((dataPoint) => dataPoint.warranty).length;
       setWarrantyCount(count);
     } else {
       const count = activeData.filter(
         (dataPoint) => !dataPoint.warranty
       ).length;
-      console.log("no1", count);
       setWarrantyCount(count);
     }
 
@@ -84,14 +81,8 @@ export default function DashBoard() {
       const count = activeData.filter(
         (dataPoint) => dataPoint.service_contract
       );
-      console.log(
-        "valid2",
-        count,
-        activeData.map((a) => a.service_contract)
-      );
       setContractCount(count.length);
     } else {
-      console.log("no2");
       const count = activeData.filter(
         (dataPoint) => !dataPoint.service_contract
       ).length;
