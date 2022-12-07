@@ -1,10 +1,8 @@
 import {
   Table,
-  TableCaption,
   TableContainer,
   Tbody,
   Td,
-  Tfoot,
   Th,
   Thead,
   Tr,
@@ -19,42 +17,35 @@ export interface ICustomTableProps {
 export function CustomTable({ activeData }: ICustomTableProps) {
   return (
     <div>
-      <TableContainer>
+      <TableContainer my="4">
         <Table variant="simple">
-          <TableCaption>Imperial to metric conversion factors</TableCaption>
           <Thead>
             <Tr>
-              <Th>asset type</Th>
-              <Th>customer</Th>
-              <Th>service_contract</Th>
-              <Th>warranty</Th>
-              <Th>serial_number</Th>
-              <Th>guid</Th>
+              <Th role="columnheader">asset type</Th>
+              <Th role="columnheader">customer</Th>
+              <Th role="columnheader">service_contract</Th>
+              <Th role="columnheader">warranty</Th>
+              <Th role="columnheader">serial_number</Th>
+              <Th role="columnheader">guid</Th>
             </Tr>
           </Thead>
-          <Tbody>
+          <Tbody role="grid">
             {activeData.map((dp, i) => (
-              <Tr data-testid={`row-${i}`} key={i}>
+              <Tr
+                data-testid={`row-${i}`}
+                key={i}
+                role="row"
+                aria-rowindex={i + 1}
+              >
                 <Td>{dp.asset_type}</Td>
                 <Td data-testid={`col-customer-${i}`}>{dp.customer}</Td>
-                <Td>
-                  {dp.service_contract
-                    ? "service contract"
-                    : "no service contract"}
-                </Td>
-                <Td>{dp.warranty ? "warranty" : "no warranty"}</Td>
+                <Td>{dp.service_contract ? "valid" : "expired"}</Td>
+                <Td>{dp.warranty ? "valid" : "expired"}</Td>
                 <Td>{dp.serial_number}</Td>
                 <Td>{dp.guid}</Td>
               </Tr>
             ))}
           </Tbody>
-          <Tfoot>
-            <Tr>
-              <Th>To convert</Th>
-              <Th>into</Th>
-              <Th isNumeric>multiply by</Th>
-            </Tr>
-          </Tfoot>
         </Table>
       </TableContainer>
     </div>

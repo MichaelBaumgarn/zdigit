@@ -1,12 +1,12 @@
 import * as React from "react";
 
-import { Box, HStack, Input } from "@chakra-ui/react";
+import { Box, HStack, Input, Stack } from "@chakra-ui/react";
+import { useEffect, useState } from "react";
 
-import BarChart from "./BarChart";
 import { CustomTable } from "./CustomTable";
 import CustomTag from "./Tag";
+import FuzzySearch from "fuzzy-search";
 import data from "./machine_data.json";
-import { useState } from "react";
 
 export type Machine = {
   id: number;
@@ -24,8 +24,32 @@ export default function DashBoard() {
   const warranty = data.filter((dataPoint) => dataPoint.warranty);
   const noContract = data.filter((dataPoint) => !dataPoint.service_contract);
   const contract = data.filter((dataPoint) => dataPoint.service_contract);
-  const [filterWarranty, setFilterWarranty] = React.useState(true);
-  const [filterContract, setFilterContract] = React.useState(false);
+  const [filterWarranty, setFilterWarranty] = React.useState<boolean | null>(
+    null
+  );
+  const [filterContract, setFilterContract] = React.useState<boolean | null>(
+    null
+  );
+
+  useEffect(() => {
+    const filteredData = data.filter((dataPoint) => {
+      if (filterContract && filterWarranty) {
+        return dataPoint.service_contract && dataPoint.warranty;
+      } else if (!filterContract && !filterWarranty) {
+        return !dataPoint.service_contract && !dataPoint.warranty;
+      } else if (filterContract && filterWarranty === null) {
+        return dataPoint.service_contract;
+      } else if (!filterContract && filterWarranty === null) {
+        return !dataPoint.service_contract;
+      } else if (filterWarranty && filterContract === null) {
+        return dataPoint.warranty;
+      } else if (!filterWarranty && filterContract === null) {
+        return !dataPoint.warranty;
+      }
+      return data;
+    });
+    setActiveData(filteredData);
+  }, [filterContract, filterWarranty]);
 
   // const findSerialNumber = (data: Machine[], searchTerm: string): Machine[] => {
   //   const searchValues = searchTerm.split("");
@@ -44,15 +68,17 @@ export default function DashBoard() {
       return;
     }
     // how about using common substring data
-    const results = data.filter((dp) => dp.serial_number === e.target.value);
+    // const results = data.filter((dp) => dp.serial_number === e.target.value);
     // const results = findSerialNumber(data, e.target.value);
-
+    const searcher = new FuzzySearch(data, ["serial_number"], {
+      caseSensitive: false,
+    });
+    const results = searcher.search(e.target.value);
     setActiveData(results);
   };
 
   const handleFilterWarranty = () => {
     setFilterWarranty(!filterWarranty);
-    setFilterContract(false);
     if (filterWarranty) {
       setActiveData(noWarranty);
     } else {
@@ -62,7 +88,6 @@ export default function DashBoard() {
 
   const handleFilterContract = () => {
     setFilterContract(!filterContract);
-    setFilterWarranty(false);
     if (filterContract) {
       setActiveData(noContract);
     } else {
@@ -71,7 +96,20 @@ export default function DashBoard() {
   };
   return (
     <Box m="4">
-      <HStack my="4" spacing="4">
+      <Stack direction={["column", "row"]} my="4" spacing="4">
+        <CustomTag
+          active={filterContract}
+          label={
+            filterContract
+              ? `${contract.length} contract`
+              : `${noContract.length} have no contract`
+          }
+          onClick={handleFilterContract}
+          onClose={() => {
+            console.log("close");
+            setFilterContract(null);
+          }}
+        />
         <CustomTag
           data-testid="warranty-toggle"
           label={
@@ -81,19 +119,14 @@ export default function DashBoard() {
           }
           active={filterWarranty}
           onClick={handleFilterWarranty}
+          onClose={() => {
+            console.log("close");
+
+            setFilterWarranty(null);
+          }}
         />
-        <CustomTag
-          active={filterContract}
-          label={
-            filterContract
-              ? `${contract.length} contract`
-              : `${noContract.length} have no contract`
-          }
-          onClick={handleFilterContract}
-        />
-      </HStack>
-      <BarChart warranty={warranty} noWarranty={noWarranty} />
-      <Input onChange={handleSearch}></Input>
+      </Stack>
+      <Input aria-label={"search-input"} onChange={handleSearch}></Input>
       <CustomTable activeData={activeData} />
     </Box>
   );
