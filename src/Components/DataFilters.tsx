@@ -27,7 +27,11 @@ export default function DataFilters({
       <Heading mt="4" size="md">
         Filter by:
       </Heading>
-      <Text fontSize="sm">Hint: Click on the X to disable the filter</Text>
+      <Text fontSize="sm">
+        Hint: Click on the X to disable the filter. Disabled Filters are gray
+        and ignored. Green means valid and Red means expired. You can combine
+        the filters.
+      </Text>
       <Stack
         direction={["column", "row"]}
         spacing="4"

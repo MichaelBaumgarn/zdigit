@@ -28,12 +28,12 @@ export function CustomTable({ activeData }: ICustomTableProps) {
         <Table variant="simple">
           <Thead>
             <Tr>
-              <Th role="columnheader">asset type</Th>
-              <Th role="columnheader">customer</Th>
-              <Th role="columnheader">service_contract</Th>
-              <Th role="columnheader">warranty</Th>
-              <Th role="columnheader">serial_number</Th>
-              <Th role="columnheader">guid</Th>
+              <Th role="columnheader">Asset type</Th>
+              <Th role="columnheader">Customer</Th>
+              <Th role="columnheader">Service contract</Th>
+              <Th role="columnheader">Warranty</Th>
+              <Th role="columnheader">Serial number</Th>
+              <Th role="columnheader">Guid</Th>
             </Tr>
           </Thead>
           <Tbody role="grid">

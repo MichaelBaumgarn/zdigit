@@ -66,6 +66,7 @@ export default function CustomSearch({
           aria-label="search-input"
           data-testid="search-input"
           onChange={handleSearch}
+          placeholder="for example 2704..."
         ></Input>
       </label>
     </div>
