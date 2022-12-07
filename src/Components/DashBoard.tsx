@@ -116,7 +116,7 @@ export default function DashBoard() {
         contractCount={contractCount}
         warrantyCount={warrantyCount}
       />
-      <Divider my="4"></Divider>
+      {/* <Divider my="4"></Divider> */}
       <CustomSearch
         activeSearchTags={activeSearchTags}
         setActiveSearchTags={setActiveSearchTags}

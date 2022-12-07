@@ -1,6 +1,17 @@
 import * as React from "react";
 
-import { Heading, Input, Stack, Text } from "@chakra-ui/react";
+import {
+  Accordion,
+  AccordionButton,
+  AccordionIcon,
+  AccordionItem,
+  AccordionPanel,
+  Box,
+  Heading,
+  Input,
+  Stack,
+  Text,
+} from "@chakra-ui/react";
 
 import CustomTag from "./CustomTag";
 
@@ -17,47 +28,65 @@ export default function CustomSearch({
 }: ICustomSearchProps) {
   return (
     <div aria-label="search area">
-      <Heading size="md">Search by text based on the selected filters:</Heading>
-      <Text fontSize="sm" mb={["2", "2", ""]}>
-        Hint: You can select multiple columns at once but make sure at least one
-        is selected. Your text search will be compared against the selected
-        columns.
-      </Text>
-      <Stack
-        direction={["column", "row"]}
-        my="2"
-        flexWrap="wrap"
-        alignItems={["flex-start", "center"]}
-      >
-        {["serial_number", "customer", "asset_type", "id", "guid"].map(
-          (searchColumn, i) => (
-            <CustomTag
-              key={`search-${i}`}
-              label={searchColumn}
-              active={
-                Boolean(activeSearchTags.find((tag) => tag === searchColumn))
-                  ? "valid"
-                  : "ignore"
-              }
-              onClick={() => {
-                const inList = activeSearchTags.find(
-                  (tag) => tag === searchColumn
-                );
-                if (!inList) {
-                  const newActiveSearchTags = [...activeSearchTags];
-                  newActiveSearchTags.push(searchColumn);
-                  setActiveSearchTags(newActiveSearchTags);
-                } else if (activeSearchTags.length > 1) {
-                  const newActiveSearchTags = activeSearchTags.filter(
-                    (tag) => tag !== searchColumn
-                  );
-                  setActiveSearchTags(newActiveSearchTags);
-                }
-              }}
-            />
-          )
-        )}
-      </Stack>
+      <Accordion variant="ghost" my="4" allowToggle>
+        <AccordionItem>
+          <h2>
+            <AccordionButton>
+              <Box flex="1" textAlign="left">
+                Search and Options
+              </Box>
+              <AccordionIcon />
+            </AccordionButton>
+          </h2>
+          <AccordionPanel pb={4}>
+            <Heading size="md">
+              Search by text based on the selected filters:
+            </Heading>
+            <Text fontSize="sm" mb={["2", "2", ""]}>
+              Hint: You can select multiple columns at once but make sure at
+              least one is selected. Your text search will be compared against
+              the selected columns.
+            </Text>
+            <Stack
+              direction={["column", "row"]}
+              my="2"
+              flexWrap="wrap"
+              alignItems={["flex-start", "center"]}
+            >
+              {["serial_number", "customer", "asset_type", "id", "guid"].map(
+                (searchColumn, i) => (
+                  <CustomTag
+                    key={`search-${i}`}
+                    label={searchColumn}
+                    active={
+                      Boolean(
+                        activeSearchTags.find((tag) => tag === searchColumn)
+                      )
+                        ? "valid"
+                        : "ignore"
+                    }
+                    onClick={() => {
+                      const inList = activeSearchTags.find(
+                        (tag) => tag === searchColumn
+                      );
+                      if (!inList) {
+                        const newActiveSearchTags = [...activeSearchTags];
+                        newActiveSearchTags.push(searchColumn);
+                        setActiveSearchTags(newActiveSearchTags);
+                      } else if (activeSearchTags.length > 1) {
+                        const newActiveSearchTags = activeSearchTags.filter(
+                          (tag) => tag !== searchColumn
+                        );
+                        setActiveSearchTags(newActiveSearchTags);
+                      }
+                    }}
+                  />
+                )
+              )}
+            </Stack>
+          </AccordionPanel>
+        </AccordionItem>
+      </Accordion>
       <label>
         Search:
         <Input
