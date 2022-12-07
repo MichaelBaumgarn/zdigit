@@ -1,6 +1,6 @@
 import * as React from "react";
 
-import { Box, Divider, Heading, Stack } from "@chakra-ui/react";
+import { Box, Divider, Heading, Stack, Text } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 
 import CustomSearch from "./CustomSearch";
@@ -21,11 +21,7 @@ export type Machine = {
 
 export default function DashBoard() {
   const [activeData, setActiveData] = useState(() => [...data]);
-  const noWarranty = data.filter((dataPoint) => !dataPoint.warranty);
-  const warranty = data.filter((dataPoint) => dataPoint.warranty);
-  const noContract = data.filter((dataPoint) => !dataPoint.service_contract);
-  const contract = data.filter((dataPoint) => dataPoint.service_contract);
-  const [filterWarranty, setFilterWarranty] = useState<boolean | null>(null);
+  const [filterWarranty, setFilterWarranty] = useState<boolean | null>(false);
   const [filterContract, setFilterContract] = useState<boolean | null>(null);
   const [activeSearchTags, setActiveSearchTags] = useState<string[]>([
     "serial_number",
@@ -35,6 +31,8 @@ export default function DashBoard() {
     const filteredData = data.filter((dataPoint) => {
       if (filterContract && filterWarranty) {
         return dataPoint.service_contract && dataPoint.warranty;
+      } else if (filterContract === null && filterWarranty === null) {
+        return dataPoint;
       } else if (!filterContract && !filterWarranty) {
         return !dataPoint.service_contract && !dataPoint.warranty;
       } else if (filterContract && filterWarranty === null) {
@@ -45,11 +43,39 @@ export default function DashBoard() {
         return dataPoint.warranty;
       } else if (!filterWarranty && filterContract === null) {
         return !dataPoint.warranty;
+      } else if (!filterContract && filterWarranty) {
+        return !dataPoint.service_contract && dataPoint.warranty;
+      } else if (filterContract && !filterWarranty) {
+        return dataPoint.service_contract && !dataPoint.warranty;
       }
-      return data;
+      return dataPoint;
     });
     setActiveData(filteredData);
   }, [filterContract, filterWarranty]);
+
+  const [warrantyCount, setWarrantyCount] = useState(activeData.length);
+  const [contractCount, setContractCount] = useState(activeData.length);
+
+  useEffect(() => {
+    if (filterWarranty) {
+      const warranty = activeData.filter((dataPoint) => dataPoint.warranty);
+      setWarrantyCount(warranty.length);
+    } else {
+      const noWarranty = activeData.filter((dataPoint) => !dataPoint.warranty);
+      setWarrantyCount(noWarranty.length);
+    }
+    if (filterContract) {
+      const contract = activeData.filter(
+        (dataPoint) => dataPoint.service_contract
+      );
+      setContractCount(contract.length);
+    } else {
+      const noContract = activeData.filter(
+        (dataPoint) => !dataPoint.service_contract
+      );
+      setContractCount(noContract.length);
+    }
+  }, [activeData, filterContract, filterWarranty]);
 
   // const findSerialNumber = (data: Machine[], searchTerm: string): Machine[] => {
   //   const searchValues = searchTerm.split("");
@@ -78,20 +104,10 @@ export default function DashBoard() {
 
   const handleFilterWarranty = () => {
     setFilterWarranty(!filterWarranty);
-    if (filterWarranty) {
-      setActiveData(noWarranty);
-    } else {
-      setActiveData(warranty);
-    }
   };
 
   const handleFilterContract = () => {
     setFilterContract(!filterContract);
-    if (filterContract) {
-      setActiveData(noContract);
-    } else {
-      setActiveData(contract);
-    }
   };
 
   return (
@@ -99,6 +115,7 @@ export default function DashBoard() {
       <Heading mt="4" size="md">
         Sorty by:
       </Heading>
+      <Text>Click on the X to disregard the filter</Text>
       <Stack
         direction={["column", "row"]}
         my="4"
@@ -110,12 +127,11 @@ export default function DashBoard() {
           active={filterContract}
           label={
             filterContract
-              ? `${contract.length} contract`
-              : `${noContract.length} have no contract`
+              ? `${contractCount} contract`
+              : `${contractCount} with expired contract`
           }
           onClick={handleFilterContract}
           onClose={() => {
-            console.log("close");
             setFilterContract(null);
           }}
         />
@@ -123,14 +139,12 @@ export default function DashBoard() {
           data-testid="warranty-toggle"
           label={
             filterWarranty
-              ? `${warranty.length} warranty`
-              : `${noWarranty.length} have expired warranty`
+              ? `${warrantyCount} warranty`
+              : `${warrantyCount} with expired warranty`
           }
           active={filterWarranty}
           onClick={handleFilterWarranty}
           onClose={() => {
-            console.log("close");
-
             setFilterWarranty(null);
           }}
         />
