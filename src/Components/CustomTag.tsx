@@ -1,11 +1,11 @@
 import { Button, Tag, TagCloseButton, Text } from "@chakra-ui/react";
 
-import { Filter } from "./DashBoard";
+import { FilterValue } from "./DashBoard";
 
 type TCustomTag = {
   label?: string;
   colorScheme?: string;
-  active: Filter;
+  active: FilterValue;
   onClick: () => void;
   onClose?: () => void | undefined;
 };

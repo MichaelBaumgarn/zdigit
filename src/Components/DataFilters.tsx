@@ -3,13 +3,13 @@ import * as React from "react";
 import { Heading, Stack, Text } from "@chakra-ui/react";
 
 import CustomTag from "./CustomTag";
-import { Filter } from "./DashBoard";
+import { FilterValue } from "./DashBoard";
 
 export interface IDataFiltersProps {
-  filterContract: Filter;
-  filterWarranty: Filter;
-  setFilterContract: (val: Filter) => void;
-  setFilterWarranty: (val: Filter) => void;
+  filterContract: FilterValue;
+  filterWarranty: FilterValue;
+  setFilterContract: (val: FilterValue) => void;
+  setFilterWarranty: (val: FilterValue) => void;
   contractCount: number;
   warrantyCount: number;
 }

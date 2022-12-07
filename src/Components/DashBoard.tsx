@@ -19,12 +19,12 @@ export type Machine = {
   warranty: boolean;
 };
 
-export type Filter = "ignore" | "valid" | "expired";
+export type FilterValue = "ignore" | "valid" | "expired";
 
 export default function DashBoard() {
   const [activeData, setActiveData] = useState(() => [...data]);
-  const [filterWarranty, setFilterWarranty] = useState<Filter>("ignore");
-  const [filterContract, setFilterContract] = useState<Filter>("expired");
+  const [filterWarranty, setFilterWarranty] = useState<FilterValue>("ignore");
+  const [filterContract, setFilterContract] = useState<FilterValue>("expired");
 
   const [activeSearchTags, setActiveSearchTags] = useState<string[]>([
     "serial_number",
