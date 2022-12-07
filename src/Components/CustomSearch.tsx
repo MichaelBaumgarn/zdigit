@@ -1,6 +1,6 @@
 import * as React from "react";
 
-import { Heading, Input, Stack } from "@chakra-ui/react";
+import { Heading, Input, Stack, Text } from "@chakra-ui/react";
 
 import CustomTag from "./CustomTag";
 
@@ -17,7 +17,12 @@ export default function CustomSearch({
 }: ICustomSearchProps) {
   return (
     <div aria-label="search area">
-      <Heading size="md">Search by text with regards to these filters:</Heading>
+      <Heading size="md">Search by text based on the selected filters:</Heading>
+      <Text fontSize="sm">
+        Hint: You can select multiple columns at once but make sure at least one
+        is selected. Your text search will be compared against the selected
+        columns.
+      </Text>
       <Stack
         direction={["column", "row"]}
         my="2"

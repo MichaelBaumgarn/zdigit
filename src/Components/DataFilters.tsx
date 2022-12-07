@@ -24,12 +24,11 @@ export default function DataFilters({
   return (
     <div>
       <Heading mt="4" size="md">
-        Sorty by:
+        Filter by:
       </Heading>
-      <Text>Click on the X to disregard the filter</Text>
+      <Text fontSize="sm">Hint: Click on the X to disable the filter</Text>
       <Stack
         direction={["column", "row"]}
-        my="4"
         spacing="4"
         alignItems={["flex-start", "center"]}
       >
