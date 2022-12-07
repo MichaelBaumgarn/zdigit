@@ -1,5 +1,4 @@
 import {
-  Box,
   Table,
   TableContainer,
   Tbody,
@@ -21,8 +20,8 @@ export function CustomTable({ activeData }: ICustomTableProps) {
   return (
     <div>
       <VStack spacing="4" my="4" display={["", "", "", "none"]}>
-        {activeData.map((dp) => (
-          <CustomCard dataPoint={dp}></CustomCard>
+        {activeData.map((dp, i) => (
+          <CustomCard key={`card-${i}`} dataPoint={dp}></CustomCard>
         ))}
       </VStack>
       <TableContainer my="4" display={["none", "block", "block", "block"]}>
