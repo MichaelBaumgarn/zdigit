@@ -21,7 +21,6 @@ const CustomTag = ({
       my="4"
       maxH="30"
       aria-label={`filter for: ${label}`}
-      {...rest}
       size="lg"
       borderRadius="full"
       variant="solid"
@@ -31,6 +30,7 @@ const CustomTag = ({
       overflow="hidden"
     >
       <Button
+        {...rest}
         variant="ghost"
         _hover={{}}
         _active={{}}

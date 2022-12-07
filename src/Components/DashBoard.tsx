@@ -1,11 +1,11 @@
 import * as React from "react";
 
-import { Box, Divider, Heading, Input, Stack, Text } from "@chakra-ui/react";
+import { Box, Divider, Heading, Stack } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 
 import CustomSearch from "./CustomSearch";
 import { CustomTable } from "./CustomTable";
-import CustomTag from "./Tag";
+import CustomTag from "./CustomTag";
 import FuzzySearch from "fuzzy-search";
 import data from "../machine_data.json";
 
@@ -96,7 +96,6 @@ export default function DashBoard() {
 
   return (
     <Box m="4">
-      <Divider></Divider>
       <Heading mt="4" size="md">
         Sorty by:
       </Heading>
@@ -107,6 +106,7 @@ export default function DashBoard() {
         alignItems="center"
       >
         <CustomTag
+          data-testid="toggle-contract"
           active={filterContract}
           label={
             filterContract
@@ -135,6 +135,7 @@ export default function DashBoard() {
           }}
         />
       </Stack>
+      <Divider my="4"></Divider>
       <CustomSearch
         activeSearchTags={activeSearchTags}
         setActiveSearchTags={setActiveSearchTags}

@@ -26,7 +26,6 @@ export function CustomTable({ activeData }: ICustomTableProps) {
       </VStack>
       <TableContainer my="4" display={["none", "block", "block", "block"]}>
         <Table variant="simple">
-          <caption>Machines and customers overview</caption>
           <Thead>
             <Tr>
               <Th role="columnheader">asset type</Th>
@@ -47,8 +46,12 @@ export function CustomTable({ activeData }: ICustomTableProps) {
               >
                 <Td>{dp.asset_type}</Td>
                 <Td data-testid={`col-customer-${i}`}>{dp.customer}</Td>
-                <Td>{dp.service_contract ? "valid" : "expired"}</Td>
-                <Td>{dp.warranty ? "valid" : "expired"}</Td>
+                <Td data-testid={`col-contract-${i}`}>
+                  {dp.service_contract ? "valid" : "expired"}
+                </Td>
+                <Td data-testid={`col-warranty-${i}`}>
+                  {dp.warranty ? "valid" : "expired"}
+                </Td>
                 <Td>{dp.serial_number}</Td>
                 <Td>{dp.guid}</Td>
               </Tr>

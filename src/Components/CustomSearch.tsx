@@ -2,7 +2,7 @@ import * as React from "react";
 
 import { Heading, Input, Stack } from "@chakra-ui/react";
 
-import CustomTag from "./Tag";
+import CustomTag from "./CustomTag";
 
 export interface ICustomSearchProps {
   activeSearchTags: string[];
@@ -26,8 +26,9 @@ export default function CustomSearch({
         alignItems="center"
       >
         {["serial_number", "customer", "asset_type", "id", "guid"].map(
-          (searchColumn) => (
+          (searchColumn, i) => (
             <CustomTag
+              key={`search-${i}`}
               label={searchColumn}
               active={
                 Boolean(activeSearchTags.find((tag) => tag === searchColumn))
@@ -57,7 +58,8 @@ export default function CustomSearch({
         Search:
         <Input
           autoFocus
-          aria-label={"search-input"}
+          aria-label="search-input"
+          data-testid="search-input"
           onChange={handleSearch}
         ></Input>
       </label>
