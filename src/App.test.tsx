@@ -33,12 +33,17 @@ test("combine toggles", () => {
   const firstRowWarranty = screen.getByTestId("col-warranty-0");
   const toggleContract = screen.getByTestId("toggle-contract");
   const toggleWarranty = screen.getByTestId("toggle-warranty");
+
+  // at the start, contract is set to expired by default
   expect(firstRowContract.textContent).toBe("expired");
-  expect(firstRowWarranty.textContent).toBe("expired");
+  // the first time we click on any toggle, it will be set to valid
   userEvent.click(toggleContract);
   userEvent.click(toggleWarranty);
+
   expect(firstRowContract.textContent).toBe("valid");
   expect(firstRowWarranty.textContent).toBe("valid");
+
+  // now we test different combinations
   userEvent.click(toggleWarranty);
   expect(firstRowContract.textContent).toBe("valid");
   expect(firstRowWarranty.textContent).toBe("expired");
