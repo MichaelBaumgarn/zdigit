@@ -127,7 +127,11 @@ export default function DashBoard() {
         />
       </Stack>
       <Text>Search:</Text>
-      <Input aria-label={"search-input"} onChange={handleSearch}></Input>
+      <Input
+        autoFocus
+        aria-label={"search-input"}
+        onChange={handleSearch}
+      ></Input>
       <CustomTable activeData={activeData} />
     </Box>
   );
