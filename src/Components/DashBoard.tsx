@@ -1,12 +1,13 @@
 import * as React from "react";
 
-import { Box, Input, Stack } from "@chakra-ui/react";
+import { Box, Divider, Heading, Input, Stack, Text } from "@chakra-ui/react";
+import { useEffect, useState } from "react";
 
+import CustomSearch from "./CustomSearch";
 import { CustomTable } from "./CustomTable";
 import CustomTag from "./Tag";
 import FuzzySearch from "fuzzy-search";
 import data from "../machine_data.json";
-import { useEffect } from "react";
 
 export type Machine = {
   id: number;
@@ -19,17 +20,16 @@ export type Machine = {
 };
 
 export default function DashBoard() {
-  const [activeData, setActiveData] = React.useState(() => [...data]);
+  const [activeData, setActiveData] = useState(() => [...data]);
   const noWarranty = data.filter((dataPoint) => !dataPoint.warranty);
   const warranty = data.filter((dataPoint) => dataPoint.warranty);
   const noContract = data.filter((dataPoint) => !dataPoint.service_contract);
   const contract = data.filter((dataPoint) => dataPoint.service_contract);
-  const [filterWarranty, setFilterWarranty] = React.useState<boolean | null>(
-    null
-  );
-  const [filterContract, setFilterContract] = React.useState<boolean | null>(
-    null
-  );
+  const [filterWarranty, setFilterWarranty] = useState<boolean | null>(null);
+  const [filterContract, setFilterContract] = useState<boolean | null>(null);
+  const [activeSearchTags, setActiveSearchTags] = useState<string[]>([
+    "serial_number",
+  ]);
 
   useEffect(() => {
     const filteredData = data.filter((dataPoint) => {
@@ -69,7 +69,7 @@ export default function DashBoard() {
     // how about using common substring data
     // const results = data.filter((dp) => dp.serial_number === e.target.value);
     // const results = findSerialNumber(data, e.target.value);
-    const searcher = new FuzzySearch(data, ["serial_number"], {
+    const searcher = new FuzzySearch(data, activeSearchTags, {
       caseSensitive: false,
     });
     const results = searcher.search(e.target.value);
@@ -93,9 +93,19 @@ export default function DashBoard() {
       setActiveData(contract);
     }
   };
+
   return (
     <Box m="4">
-      <Stack direction={["column", "row"]} my="4" spacing="4">
+      <Divider></Divider>
+      <Heading mt="4" size="md">
+        Sorty by:
+      </Heading>
+      <Stack
+        direction={["column", "row"]}
+        my="4"
+        spacing="4"
+        alignItems="center"
+      >
         <CustomTag
           active={filterContract}
           label={
@@ -125,14 +135,11 @@ export default function DashBoard() {
           }}
         />
       </Stack>
-      <label>
-        Search:
-        <Input
-          autoFocus
-          aria-label={"search-input"}
-          onChange={handleSearch}
-        ></Input>
-      </label>
+      <CustomSearch
+        activeSearchTags={activeSearchTags}
+        setActiveSearchTags={setActiveSearchTags}
+        handleSearch={handleSearch}
+      />
       <CustomTable activeData={activeData} />
     </Box>
   );

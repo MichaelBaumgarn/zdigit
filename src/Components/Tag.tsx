@@ -1,4 +1,4 @@
-import { Button, Tag, TagCloseButton } from "@chakra-ui/react";
+import { Button, Tag, TagCloseButton, Text } from "@chakra-ui/react";
 
 type TCustomTag = {
   label?: string;
@@ -18,12 +18,17 @@ const CustomTag = ({
 }: TCustomTag) => {
   return (
     <Tag
+      my="4"
+      maxH="30"
       aria-label={`filter for: ${label}`}
       {...rest}
       size="lg"
       borderRadius="full"
       variant="solid"
       colorScheme={active === null ? "gray" : active ? colorScheme : "red"}
+      minW="100"
+      whiteSpace="nowrap"
+      overflow="hidden"
     >
       <Button
         variant="ghost"
@@ -33,7 +38,9 @@ const CustomTag = ({
         aria-label="toggle"
         onClick={onClick}
       >
-        {label}
+        <Text whiteSpace="nowrap" overflow="hidden" textOverflow="ellipsis">
+          {label}
+        </Text>
       </Button>
       <TagCloseButton aria-label="disable filter" onClick={onClose} />
     </Tag>
