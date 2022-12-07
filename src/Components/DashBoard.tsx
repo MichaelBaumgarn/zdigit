@@ -19,12 +19,13 @@ export type Machine = {
   warranty: boolean;
 };
 
+export type FilterValue = "ignore" | "valid" | "expired";
+
 export default function DashBoard() {
   const [activeData, setActiveData] = useState(() => [...data]);
-  const [filterWarranty, setFilterWarranty] = useState<boolean | null>(false);
-  const [filterContract, setFilterContract] = useState<boolean | null>(null);
+  const [filterWarranty, setFilterWarranty] = useState<FilterValue>("ignore");
+  const [filterContract, setFilterContract] = useState<FilterValue>("expired");
 
-  // could be an enum
   const [activeSearchTags, setActiveSearchTags] = useState<string[]>([
     "serial_number",
   ]);
@@ -32,28 +33,27 @@ export default function DashBoard() {
   useEffect(() => {
     // Filter logic. Based on toggles, filter data. Users should be able to combine the filters.
     // todo: this should work but is a mess. Redesign this feature in a more elegant way.
-    // at the moment this tried to make the toggle hold 3 values, null for ignore, true for valid, and false for expired.
-    // But thats an anitpatter and not good.
+    // At the moment this tries to make the toggle hold 3 values.
     // Maybe allow for adding and removing tags, and then the added tags can be toggeled.
     // Maybe this then also allows for this if else to be reduced to something more dynamic
     const filteredData = data.filter((dataPoint) => {
-      if (filterContract && filterWarranty) {
+      if (filterContract === "valid" && filterWarranty === "valid") {
         return dataPoint.service_contract && dataPoint.warranty;
-      } else if (filterContract === null && filterWarranty === null) {
+      } else if (filterContract === "ignore" && filterWarranty === "ignore") {
         return dataPoint;
-      } else if (!filterContract && !filterWarranty) {
+      } else if (filterContract === "expired" && filterWarranty === "expired") {
         return !dataPoint.service_contract && !dataPoint.warranty;
-      } else if (filterContract && filterWarranty === null) {
+      } else if (filterContract === "valid" && filterWarranty === "ignore") {
         return dataPoint.service_contract;
-      } else if (!filterContract && filterWarranty === null) {
+      } else if (filterContract === "expired" && filterWarranty === "ignore") {
         return !dataPoint.service_contract;
-      } else if (filterWarranty && filterContract === null) {
+      } else if (filterWarranty === "valid" && filterContract === "ignore") {
         return dataPoint.warranty;
-      } else if (!filterWarranty && filterContract === null) {
+      } else if (filterWarranty === "expired" && filterContract === "ignore") {
         return !dataPoint.warranty;
-      } else if (!filterContract && filterWarranty) {
+      } else if (filterContract === "expired" && filterWarranty === "valid") {
         return !dataPoint.service_contract && dataPoint.warranty;
-      } else if (filterContract && !filterWarranty) {
+      } else if (filterContract === "valid" && filterWarranty === "expired") {
         return dataPoint.service_contract && !dataPoint.warranty;
       }
       return dataPoint;
@@ -66,7 +66,7 @@ export default function DashBoard() {
 
   useEffect(() => {
     // find out count for warranty
-    if (filterWarranty) {
+    if (filterWarranty === "valid") {
       const count = activeData.filter((dataPoint) => dataPoint.warranty).length;
       setWarrantyCount(count);
     } else {
@@ -77,11 +77,11 @@ export default function DashBoard() {
     }
 
     // and independently also the count for warranty
-    if (filterContract) {
+    if (filterContract === "valid") {
       const count = activeData.filter(
         (dataPoint) => dataPoint.service_contract
-      ).length;
-      setContractCount(count);
+      );
+      setContractCount(count.length);
     } else {
       const count = activeData.filter(
         (dataPoint) => !dataPoint.service_contract
