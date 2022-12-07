@@ -1,12 +1,12 @@
 import * as React from "react";
 
-import { Box, HStack, Input, Stack } from "@chakra-ui/react";
-import { useEffect, useState } from "react";
+import { Box, Input, Stack, Text } from "@chakra-ui/react";
 
 import { CustomTable } from "./CustomTable";
 import CustomTag from "./Tag";
 import FuzzySearch from "fuzzy-search";
 import data from "./machine_data.json";
+import { useEffect } from "react";
 
 export type Machine = {
   id: number;
@@ -126,6 +126,7 @@ export default function DashBoard() {
           }}
         />
       </Stack>
+      <Text>Search:</Text>
       <Input aria-label={"search-input"} onChange={handleSearch}></Input>
       <CustomTable activeData={activeData} />
     </Box>

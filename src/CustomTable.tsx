@@ -1,4 +1,5 @@
 import {
+  Box,
   Table,
   TableContainer,
   Tbody,
@@ -6,8 +7,10 @@ import {
   Th,
   Thead,
   Tr,
+  VStack,
 } from "@chakra-ui/react";
 
+import CustomCard from "./CustomCard";
 import { Machine } from "./DashBoard";
 
 export interface ICustomTableProps {
@@ -17,7 +20,12 @@ export interface ICustomTableProps {
 export function CustomTable({ activeData }: ICustomTableProps) {
   return (
     <div>
-      <TableContainer my="4">
+      <VStack spacing="4" my="4" display={["", "", "", "none"]}>
+        {activeData.map((dp) => (
+          <CustomCard dataPoint={dp}></CustomCard>
+        ))}
+      </VStack>
+      <TableContainer my="4" display={["none", "block", "block", "block"]}>
         <Table variant="simple">
           <Thead>
             <Tr>
